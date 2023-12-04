@@ -1,7 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Eye, EyeOff } from 'lucide-react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 
@@ -15,6 +15,7 @@ import {
   TAuthCredentialValidator,
 } from '@/lib/validators/account-credentials-validators'
 import { trpc } from '@/trpc/client'
+import { useState } from 'react'
 
 const SignUpPage = () => {
   const {
@@ -25,9 +26,13 @@ const SignUpPage = () => {
     resolver: zodResolver(AuthCredentialsValidator),
   })
 
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({})
+
   const onSubmit = ({ email, password }: TAuthCredentialValidator) => {
-    //send data to the server
+    mutate({ email, password })
   }
+
+  const [showPass, setShowPass] = useState(false)
 
   return (
     <>
@@ -63,13 +68,28 @@ const SignUpPage = () => {
                 </div>
                 <div className="grid gap-1 py-2">
                   <Label htmlFor="password">Password</Label>
-                  <Input
-                    {...register('password')}
-                    placeholder="Password"
-                    className={cn({
-                      'focus-visible:ring-red-500': errors.password,
-                    })}
-                  />
+                  <div className="relative">
+                    <Input
+                      {...register('password')}
+                      placeholder="Password"
+                      type={showPass ? 'text' : 'password'}
+                      className={cn({
+                        'focus-visible:ring-red-500': errors.password,
+                      })}
+                    />
+                    <Button
+                      variant="link"
+                      size="sm"
+                      onClick={() => setShowPass(!showPass)}
+                      className="absolute top-0 right-0"
+                    >
+                      {showPass ? (
+                        <Eye className="text-blue-500 w-5 h-5" />
+                      ) : (
+                        <EyeOff className="text-gray-400 w-5 h-5" />
+                      )}
+                    </Button>
+                  </div>
                 </div>
                 <Button>Sign up</Button>
               </div>
