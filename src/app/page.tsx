@@ -18,7 +18,7 @@ export default function Home() {
         'Every assets on our platform is verified by our team to ensure our highest quality standards. Not happy? We offer 30-day money back',
     },
     {
-      name: 'Instant Delivery',
+      name: 'For the Planet',
       Icon: Leaf,
       description:
         "We've pledged 1% of sales to the preservation and restoration of the nature",

@@ -4,9 +4,13 @@ import MaxWidthWrapper from './MaxWidthWrapper'
 import NavItems from './NavItems'
 import { buttonVariants } from './ui/button'
 import Cart from './Cart'
+import { getServerSideUser } from '@/lib/payload-utlis'
+import { cookies } from 'next/headers'
+import UserAccNav from './UserAccNav'
 
-const Navbar = () => {
-  const user = false
+const Navbar = async () => {
+  const nextCookies = cookies()
+  const { user } = await getServerSideUser(nextCookies)
 
   return (
     <div className="bg-white/60 backdrop-blur-lg sticky z-50 top-0 inset-x-0 h-16">
@@ -35,7 +39,9 @@ const Navbar = () => {
                     <span className="h-6 w-px bg-gray-200" aria-hidden="true" />
                   )}
 
-                  {user ? null : (
+                  {user ? (
+                    <UserAccNav user={user} />
+                  ) : (
                     <Link
                       href="/sign-up"
                       className={buttonVariants({ variant: 'ghost' })}
