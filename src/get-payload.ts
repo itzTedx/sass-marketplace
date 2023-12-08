@@ -46,7 +46,8 @@ export const getPayloadClient = async ({
     cached.promise = payload.init({
       email: {
         transport: transporter,
-        fromAddress: 'onboarding@resend.dev',
+        //custom email to send verification mail
+        fromAddress: 'sales@digitaldesk.ae',
         fromName: 'DigitalHippo',
       },
       secret: process.env.PAYLOAD_SECRET,
